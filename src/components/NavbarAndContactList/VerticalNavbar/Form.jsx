@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Form.css";
 import addnewImage from "../../../../src/assets/images/add-new.svg";
 import Button from "../../UI/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { contactListActions } from "../../../redux/store/contactSlice";
 
 const Form = () => {
 
@@ -13,9 +15,36 @@ tel:""
   }
 );
 
+const dispatch  = useDispatch();
+
+const existingContactkey = useSelector(state => state.contact.key);
+
+
+useEffect(() => {
+
+  const fetchExisingContact = async () => {
+    const res = await fetch(`https://contact-list-app-5360b-default-rtdb.asia-southeast1.firebasedatabase.app/contact-list/${existingContactkey}.json`)
+    const existingContact = await res.json();
+    setUserData({
+      name:existingContact?.name || "",
+      surname:existingContact?.surname || "",
+      tel:existingContact?.tel || ""
+    })
+  }
+
+  fetchExisingContact();
+
+}, [existingContactkey]);
+
 const handleSubmit = (e) => {
   e.preventDefault();
-  console.log(userData);
+
+  if(existingContactkey) {
+    dispatch(contactListActions.updateContact())
+  }
+  // console.log(userData);
+  dispatch(contactListActions.addContact(userData));
+
   setUserData({
     name: '',
     surname: '',
@@ -23,6 +52,7 @@ const handleSubmit = (e) => {
   });
 
 }
+
 
 const inputHandler = (e) => {
  const {name , value} =  e.target;
