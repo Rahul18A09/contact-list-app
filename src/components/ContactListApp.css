@@ -20,9 +20,14 @@ p, h2{
     color: #f7f7f7;
 }
 
+p {
+    color: #d7dcdf;
+}
+
 .contact-list-app {
     width: 750px;
     margin: 0% auto;
     border-radius: 3px;
     background-color: #f7f7f7;
+ 
 }
