@@ -45,8 +45,12 @@ const contactSlice = createSlice({
 
     setExistingContactKey:(state, action) => {
       state.key = action.payload 
-    }
+    },
 
+    updateContact:(state, action) => {
+      console.log(action.payload);
+      
+    }
   },
 });
 
