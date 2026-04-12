@@ -48,8 +48,18 @@ const contactSlice = createSlice({
     },
 
     updateContact:(state, action) => {
-
-      console.log(action.payload);
+const { key, name, surname, tel}  = action.payload;
+fetch(`https://contact-list-app-5360b-default-rtdb.asia-southeast1.firebasedatabase.app/contact-list/${key}.json`, 
+  {
+    method:"PUT",
+    headers: {
+      "Content-Type" : "application/json"
+    },
+    body: JSON.stringify({name, surname, tel})
+  }).catch((error) => {
+    console.log(error);
+    
+  } )
       
       // const {key, name, sruname, tel}
       
