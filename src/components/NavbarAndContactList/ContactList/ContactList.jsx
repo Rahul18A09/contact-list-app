@@ -3,25 +3,32 @@ import "./ContactList.css";
 import ContactData from "./ContactData";
 
 const ContactList = () => {
-
   const [contacts, setContacts] = useState([]);
-
 
   useEffect(() => {
     const fetchContacts = async () => {
-      const res = await fetch("https://contact-list-app-5360b-default-rtdb.asia-southeast1.firebasedatabase.app/contact-list.json");
+      const res = await fetch(
+        "https://contact-list-app-5360b-default-rtdb.asia-southeast1.firebasedatabase.app/contact-list.json",
+      );
+
       const data = await res.json();
-      console.log(data);
-      const contactsData = [];
-      for( const key in data) {
-        contactsData.push({
-          key:key,
-          name: data[key].name,
-          surname:data[key].surname,
-          tel:data[key].tel
-        })
+
+      if (!data) {
+        setContacts([]);
+        return;
       }
-      
+
+      const contactsData = [];
+
+      for (const key in data) {
+        contactsData.push({
+          key: key,
+          name: data[key].name,
+          surname: data[key].surname,
+          tel: data[key].tel,
+        });
+      }
+
       setContacts(contactsData);
     };
 
@@ -51,7 +58,7 @@ const ContactList = () => {
           </tr>
         </thead>
 
-       <ContactData contacts = {contacts}/>
+        <ContactData contacts={contacts} />
       </table>
     </div>
   );

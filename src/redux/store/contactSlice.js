@@ -48,7 +48,10 @@ const contactSlice = createSlice({
     },
 
     updateContact:(state, action) => {
+
       console.log(action.payload);
+      
+      // const {key, name, sruname, tel}
       
     }
   },
