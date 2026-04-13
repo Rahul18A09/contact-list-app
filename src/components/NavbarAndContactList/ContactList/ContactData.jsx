@@ -1,17 +1,22 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { contactListActions } from "../../../redux/store/contactSlice";
+import { deleteContact, toggleFavouriteContact } from "../../../redux/store/contactActions";
 
 const ContactData = (props) => {
   const dispatch = useDispatch();
 
   const deleteContactHandler = (key) => {
-    dispatch(contactListActions.deleteContact(key));
+    dispatch(deleteContact(key));
   };
 
   const updateContactHandler = (key) => {
     dispatch(contactListActions.setExistingContactKey(key));
-  }
+  };
+
+  const toggleFavouriteHandler = (contact) => {
+    dispatch(toggleFavouriteContact(contact));
+  };
 
   return (
     <tbody>
@@ -41,7 +46,11 @@ const ContactData = (props) => {
                     deleteContactHandler(contact.key);
                   }}
                 ></i>
-                <i className="fa-solid fa-heart"></i>
+                <i 
+                  className="fa-solid fa-heart" 
+                  style={{ color: contact.isFavourite ? "red" : "inherit", cursor: "pointer" }}
+                  onClick={() => toggleFavouriteHandler(contact)}
+                ></i>
               </div>
             </td>
           </tr>

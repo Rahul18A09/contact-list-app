@@ -3,7 +3,7 @@ import "./Form.css";
 import addnewImage from "../../../../src/assets/images/add-new.svg";
 import Button from "../../UI/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { contactListActions } from "../../../redux/store/contactSlice";
+import { addContact, updateContact } from "../../../redux/store/contactActions";
 
 const Form = () => {
   const [userData, setUserData] = useState({
@@ -41,17 +41,17 @@ const Form = () => {
 
     if (existingContactkey) {
       dispatch(
-        contactListActions.updateContact({
+        updateContact({
           key: existingContactkey,
           name: userData.name,
           surname: userData.surname,
           tel: userData.tel,
-        }),
+        })
       );
 
     }
      else {
-      dispatch(contactListActions.addContact(userData));
+      dispatch(addContact(userData));
     }
     setUserData({
       name: "",

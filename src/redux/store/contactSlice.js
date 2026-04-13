@@ -7,6 +7,9 @@ const initialState = {
     surname: "",
     tel: "",
   },
+  contacts: [],
+  totalCOntacts : 0,
+  filterType: "ALL" // "ALL" or "FAVOURITES"
 };
 
 const contactSlice = createSlice({
@@ -14,57 +17,39 @@ const contactSlice = createSlice({
   initialState,
 
   reducers: {
-    addContact: (state, action) => {
-      const userData = action.payload;
-      fetch(
-        "https://contact-list-app-5360b-default-rtdb.asia-southeast1.firebasedatabase.app/contact-list.json",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify(userData),
-        },
-      ).catch((error) => {
-        console.log(error);
-      });
+    setContacts: (state, action) => {
+      state.contacts = action.payload;
     },
 
-    deleteContact: (state, action) => {
-      const deleteKey = action.payload;
-      fetch(
-        `https://contact-list-app-5360b-default-rtdb.asia-southeast1.firebasedatabase.app/contact-list/${deleteKey}.json`,
-        {
-          method: "DELETE",
-        },
-      ).catch((error) => {
-        console.log(error);
-      });
+    appendContact: (state, action) => {
+      state.contacts.push(action.payload);
+      state.totalCOntacts += 1;
+    },
+
+    toggleContactFavourite: (state, action) => {
+      const contact = state.contacts.find((c) => c.key === action.payload);
+      if (contact) {
+        contact.isFavourite = !contact.isFavourite;
+      }
+    },
+
+    setFilterType: (state, action) => {
+      state.filterType = action.payload;
     },
 
     setExistingContactKey:(state, action) => {
       state.key = action.payload 
     },
 
-    updateContact:(state, action) => {
-const { key, name, surname, tel}  = action.payload;
-fetch(`https://contact-list-app-5360b-default-rtdb.asia-southeast1.firebasedatabase.app/contact-list/${key}.json`, 
-  {
-    method:"PUT",
-    headers: {
-      "Content-Type" : "application/json"
+    clearExistingContactKey:(state) => {
+      state.key = "";
     },
-    body: JSON.stringify({name, surname, tel})
-  }).catch((error) => {
-    console.log(error);
-    
-  } )
-      
-      // const {key, name, sruname, tel}
-      
+
+    fetchTotalContacts : (state, action) => {
+         state.totalCOntacts  = action.payload;
     }
-  },
+  }
+
 });
 
 export const contactListActions = contactSlice.actions;
