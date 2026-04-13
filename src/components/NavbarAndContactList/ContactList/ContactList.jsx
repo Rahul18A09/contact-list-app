@@ -8,10 +8,23 @@ const ContactList = () => {
   const dispatch = useDispatch();
   const contacts = useSelector((state) => state.contact.contacts) || [];
   const filterType = useSelector((state) => state.contact.filterType) || "ALL";
+  const searchQuery = useSelector((state) => state.contact.searchQuery) || "";
 
-  const displayedContacts = filterType === "FAVOURITES" 
-    ? contacts.filter(c => c.isFavourite) 
-    : contacts;
+  const displayedContacts = contacts.filter(c => {
+    // 1. Check Favourites exact logic
+    if (filterType === "FAVOURITES" && !c.isFavourite) return false;
+    
+    // 2. Check Search Logic
+    if (searchQuery.trim() !== "") {
+      const lowerQuery = searchQuery.toLowerCase();
+      const matchName = c.name?.toLowerCase().includes(lowerQuery);
+      const matchSurname = c.surname?.toLowerCase().includes(lowerQuery);
+      const matchTel = c.tel?.toLowerCase().includes(lowerQuery);
+      if (!matchName && !matchSurname && !matchTel) return false;
+    }
+
+    return true;
+  });
 
   useEffect(() => {
     dispatch(initFetchContacts());

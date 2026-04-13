@@ -1,9 +1,15 @@
 .navbar-and-list {
     width: 100%;
-    height: 445px;
+    height: auto;
+    min-height: 445px;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-between;
+}
 
+@media screen and (max-width: 768px) {
+    .navbar-and-list {
+        flex-direction: column;
+    }
 }

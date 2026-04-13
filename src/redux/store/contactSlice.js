@@ -9,7 +9,8 @@ const initialState = {
   },
   contacts: [],
   totalCOntacts : 0,
-  filterType: "ALL" // "ALL" or "FAVOURITES"
+  filterType: "ALL", // "ALL" or "FAVOURITES"
+  searchQuery: ""
 };
 
 const contactSlice = createSlice({
@@ -35,6 +36,10 @@ const contactSlice = createSlice({
 
     setFilterType: (state, action) => {
       state.filterType = action.payload;
+    },
+
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
     },
 
     setExistingContactKey:(state, action) => {

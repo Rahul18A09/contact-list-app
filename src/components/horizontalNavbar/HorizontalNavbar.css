@@ -44,3 +44,25 @@
   letter-spacing: 0.3px;
 }
 
+.search-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .horizontal-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .search-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  .search-box input[type="text"] {
+    width: 100%;
+  }
+}
